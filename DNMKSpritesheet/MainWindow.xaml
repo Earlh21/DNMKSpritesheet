@@ -69,8 +69,11 @@
                             <Grid Name="GrdSpriteDataTemplate">
                                 <Grid.ContextMenu>
                                     <ContextMenu>
+                                        <MenuItem Name="MnuSpriteRename" Header="Rename"
+                                                  PreviewMouseDown="MnuSpriteRename_PreviewMouseDown" />
                                         <MenuItem Name="MnuSpriteDelete" Header="Delete"
                                                   PreviewMouseDown="MnuSpriteDelete_OnMouseDown" />
+                                        <Separator/>
                                         <MenuItem Name="MnuMakeStillShot" Header="Create Still Shot Type"
                                                   PreviewMouseDown="MnuMakeStillShot_OnMouseDown" />
                                         <MenuItem Name="MnuMakeAnimShot" Header="Create Animated Shot Type"
@@ -129,7 +132,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="*" MinWidth="40" />
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="auto" />
@@ -150,7 +153,7 @@
                             <toolkit:ColorPicker Name="ClpDelayColor" Margin="0,0,0,4" Width="100" Grid.Row="1"
                                                  Grid.Column="1"
                                                  IsEnabled="{Binding ElementName=MWindow, Path=HasShotTypeSelected}" />
-   
+
                             <!-- Save/Revert buttons -->
                             <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4">
                                 <Button Name="BtnShotTypeSave" Width="40" Margin="0,0,10,0"
@@ -177,24 +180,24 @@
                     </GroupBox>
 
                     <!-- Grid for up/down animation frame buttons -->
-                        <Grid Grid.Row="0" Grid.Column="1" Margin="4,8,4,4">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="5" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="1" Margin="4,8,4,4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="25" />
-                            </Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25" />
+                        </Grid.ColumnDefinitions>
 
-                            <Button Name="BtnAnimationFrameUp" Content="↑" FontSize="30"
-                                    PreviewMouseDown="BtnAnimationFrameUp_OnPreviewMouseDown"
-                                    Grid.Row="0" Grid.Column="0" Margin="0,4,0,0"/>
-                            <Button Name="BtnAnimationFrameDown" Content="↓" FontSize="30"
-                                    PreviewMouseDown="BtnAnimationFrameDown_OnPreviewMouseDown"
-                                    Grid.Row="2" Grid.Column="0" Margin="0,0,0,3"/>
-                        </Grid>
+                        <Button Name="BtnAnimationFrameUp" Content="↑" FontSize="30"
+                                PreviewMouseDown="BtnAnimationFrameUp_OnPreviewMouseDown"
+                                Grid.Row="0" Grid.Column="0" Margin="0,4,0,0" />
+                        <Button Name="BtnAnimationFrameDown" Content="↓" FontSize="30"
+                                PreviewMouseDown="BtnAnimationFrameDown_OnPreviewMouseDown"
+                                Grid.Row="2" Grid.Column="0" Margin="0,0,0,3" />
+                    </Grid>
                 </Grid>
 
                 <!-- List view for displaying shot types -->
@@ -203,12 +206,6 @@
                     <ListView Name="LstShots" BorderThickness="0" SelectionChanged="LstShots_OnSelectionChanged"
                               KeyDown="LstShots_OnKeyDown" SelectionMode="Single"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                        <ListView.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Name="MnuMakeAnimationShot" Header="Create Animated Shot Type"
-                                          PreviewMouseDown="MnuMakeAnimationShot_OnPreviewMouseDown" />
-                            </ContextMenu>
-                        </ListView.ContextMenu>
 
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -219,6 +216,15 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
+                                    <Grid.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Name="MnuRenShotType" Header="Rename"
+                                                      PreviewMouseDown="MnuRenShotType_PreviewMouseDown" />
+                                            <MenuItem Name="MnuDelShotType" Header="Delete"
+                                                      PreviewMouseDown="MnuDelShotType_PreviewMouseDown" />
+                                        </ContextMenu>
+                                    </Grid.ContextMenu>
+
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>

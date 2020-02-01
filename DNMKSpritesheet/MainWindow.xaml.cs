@@ -929,5 +929,63 @@ namespace DNMKSpritesheet
 
 			Unsaved = true;
 		}
+
+		private void MnuRenShotType_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+		{
+			if (SelectedShotType == null)
+			{
+				return;
+			}
+				
+			try
+			{
+				RenameWindow rename_window = new RenameWindow(SelectedShotType.Name);
+
+				rename_window.ShowDialog();
+
+				if (rename_window.ReturnValue != null)
+				{
+					shot_manager.RenameShotType(SelectedShotType.Name, rename_window.ReturnValue);
+				}
+			}
+			catch (ArgumentException ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
+		
+		private void MnuDelShotType_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+		{
+			if (LstShots.SelectedIndex == -1)
+			{
+				return;
+			}
+
+			DeleteShotTypeConfirm(shot_manager.ShotTypes[LstShots.SelectedIndex].Name);
+		}
+
+		private void MnuSpriteRename_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+		{
+			if (SelectedSprite == null)
+			{
+				return;
+			}
+				
+			try
+			{
+				RenameWindow rename_window = new RenameWindow(SelectedSprite.Name);
+
+				rename_window.ShowDialog();
+
+				if (rename_window.ReturnValue != null)
+				{
+					shot_manager.RenameSprite(SelectedSprite.Name, rename_window.ReturnValue);
+				}
+			}
+			catch (ArgumentException ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
 	}
 }
