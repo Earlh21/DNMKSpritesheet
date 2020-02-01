@@ -1,0 +1,5 @@
+Add more attributes for shot types
+
+Add batch shot type creation
+
+Add an icon

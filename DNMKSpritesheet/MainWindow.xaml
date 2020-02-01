@@ -1,0 +1,281 @@
+﻿<Window x:Class="DNMKSpritesheet.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas/xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:DNMKSpritesheet"
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="DNMK Spritesheet" Height="350" Width="525" PreviewKeyDown="MainWindow_OnPreviewKeyDown"
+        Name="MWindow">
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Name="MnuNew" Header="New" PreviewMouseDown="MnuNew_OnPreviewMouseDown" />
+                <Separator />
+                <MenuItem Name="MnuSave" Header="Save" PreviewMouseDown="MnuSave_OnPreviewMouseDown"
+                          IsEnabled="{Binding ElementName=MWindow, Path=HasCurrentFile}" />
+                <MenuItem Name="MnuSaveAs" Header="Save As" PreviewMouseDown="MnuSaveAs_OnPreviewMouseDown" />
+                <MenuItem Name="MnuOpen" Header="Open">
+                    <MenuItem Name="MnuOpenFile" Header="Sprt File" PreviewMouseDown="MnuOpenFile_OnPreviewMouseDown" />
+                    <Separator />
+                    <MenuItem Name="MnuRecent" Header="Recent" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Name="MnuQuickExport" Header="Quick Export"
+                          PreviewMouseDown="MnuQuickExport_OnPreviewMouseDown"
+                          IsEnabled="{Binding ElementName=MWindow, Path=HasCurrentFile}" />
+                <MenuItem Name="MnuQuickExportOptions" Header="Quick Export Options"
+                          PreviewMouseDown="MnuQuickExportOptions_OnPreviewMouseDown"
+                          IsEnabled="{Binding ElementName=MWindow, Path=HasCurrentFile}" />
+                <MenuItem Name="MnuExport" Header="Export" PreviewMouseDown="MnuExport_OnPreviewMouseDown" />
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Name="MnuNewSprite" Header="New Sprite"
+                          PreviewMouseDown="MnuNewSprite_OnPreviewMouseDown" />
+                <MenuItem Name="MnuImportSprites" Header="Import Sprites"
+                          PreviewMouseDown="MnuImportSprites_OnPreviewMouseDown" />
+            </MenuItem>
+        </Menu>
+
+        <Grid Margin="3,0,3,3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="120" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- List view for displaying sprites -->
+            <GroupBox Header="Sprites" Grid.Row="0" Grid.Column="0" BorderBrush="LightSlateGray" BorderThickness="2">
+                <ListView Name="LstSprite" BorderThickness="0" SelectionMode="Single"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          KeyDown="LstSprite_OnKeyDown"
+                          PreviewMouseDoubleClick="LstSprite_OnPreviewMouseDoubleClick">
+
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Name="GrdSpriteDataTemplate">
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Name="MnuSpriteDelete" Header="Delete"
+                                                  PreviewMouseDown="MnuSpriteDelete_OnMouseDown" />
+                                        <MenuItem Name="MnuMakeStillShot" Header="Create Still Shot Type"
+                                                  PreviewMouseDown="MnuMakeStillShot_OnMouseDown" />
+                                        <MenuItem Name="MnuMakeAnimShot" Header="Create Animated Shot Type"
+                                                  PreviewMouseDown="MnuMakeAnimShot_OnPreviewMouseDown" />
+                                        <Separator />
+                                        <MenuItem Name="MnuSetDelaySprite" Header="Set As Delay Sprite"
+                                                  PreviewMouseDown="MnuSetDelaySprite_OnPreviewMouseDown" />
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <Image Source="{Binding ImageSource}" Grid.Row="0" Grid.Column="0"
+                                       HorizontalAlignment="Center" MaxWidth="128" MaxHeight="128"
+                                       RenderOptions.BitmapScalingMode="NearestNeighbor" StretchDirection="DownOnly" />
+                                <TextBlock Text="{Binding Name}" Grid.Row="1" Grid.Column="0"
+                                           HorizontalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </GroupBox>
+
+            <!-- Grid for shot type sprites and data -->
+            <Grid Grid.Row="0" Grid.Column="1" Margin="3,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- Grid for displaying shot type text data -->
+                <Grid Grid.Column="0" Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <GroupBox Header="Shot Type Data" BorderBrush="LightSlateGray" BorderThickness="2" Margin="0,0,0,3"
+                              Grid.Row="0" Grid.Column="0">
+                        <Grid Margin="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*" MinWidth="40" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="*" MinHeight="20" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Shot data settings -->
+                            <TextBlock Text="Collision Size:" Margin="0,0,10,4" Grid.Row="0" Grid.Column="0" />
+                            <TextBox Name="TxtCollision" Width="100" Margin="0,0,0,4" Grid.Row="0" Grid.Column="1"
+                                     IsEnabled="{Binding ElementName=MWindow, Path=HasShotTypeSelected}" />
+
+                            <TextBlock Text="Delay Color:" Margin="0,0,10,4" Grid.Row="1" Grid.Column="0" />
+                            <toolkit:ColorPicker Name="ClpDelayColor" Margin="0,0,0,4" Width="100" Grid.Row="1"
+                                                 Grid.Column="1"
+                                                 IsEnabled="{Binding ElementName=MWindow, Path=HasShotTypeSelected}" />
+   
+                            <!-- Save/Revert buttons -->
+                            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4">
+                                <Button Name="BtnShotTypeSave" Width="40" Margin="0,0,10,0"
+                                        PreviewMouseDown="BtnShotTypeSave_OnMouseDown"
+                                        IsEnabled="{Binding ElementName=MWindow, Path=HasShotTypeSelected}"
+                                        Content="Save" />
+
+                                <Button Name="BtnShotTypeRevert" Width="40"
+                                        PreviewMouseDown="BtnShotTypeRevert_OnPreviewMouseDown"
+                                        IsEnabled="{Binding ElementName=MWindow, Path=HasShotTypeSelected}"
+                                        Content="Revert" />
+                            </StackPanel>
+
+                            <!-- Animation frame delay -->
+                            <TextBlock Text="Delay:" Margin="0,0,10,4" Grid.Row="0" Grid.Column="4" />
+                            <TextBox Name="TxtDelay" Width="100" Margin="0,0,10,4" Grid.Row="0" Grid.Column="5"
+                                     IsEnabled="{Binding ElementName=MWindow, Path=HasAnimationFrameSelected}" />
+
+                            <Button Name="BtnDelaySave" Width="40" Height="20" Grid.Row="3" Grid.Column="5"
+                                    PreviewMouseDown="BtnDelaySave_OnPreviewMouseDown"
+                                    IsEnabled="{Binding ElementName=MWindow, Path=HasAnimationFrameSelected}"
+                                    Content="Save" />
+                        </Grid>
+                    </GroupBox>
+
+                    <!-- Grid for up/down animation frame buttons -->
+                        <Grid Grid.Row="0" Grid.Column="1" Margin="4,8,4,4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="5" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button Name="BtnAnimationFrameUp" Content="↑" FontSize="30"
+                                    PreviewMouseDown="BtnAnimationFrameUp_OnPreviewMouseDown"
+                                    Grid.Row="0" Grid.Column="0" Margin="0,4,0,0"/>
+                            <Button Name="BtnAnimationFrameDown" Content="↓" FontSize="30"
+                                    PreviewMouseDown="BtnAnimationFrameDown_OnPreviewMouseDown"
+                                    Grid.Row="2" Grid.Column="0" Margin="0,0,0,3"/>
+                        </Grid>
+                </Grid>
+
+                <!-- List view for displaying shot types -->
+                <GroupBox Header="Shot Types" Grid.Row="1" Grid.Column="0" BorderBrush="LightSlateGray"
+                          BorderThickness="2">
+                    <ListView Name="LstShots" BorderThickness="0" SelectionChanged="LstShots_OnSelectionChanged"
+                              KeyDown="LstShots_OnKeyDown" SelectionMode="Single"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Name="MnuMakeAnimationShot" Header="Create Animated Shot Type"
+                                          PreviewMouseDown="MnuMakeAnimationShot_OnPreviewMouseDown" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
+
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Image Source="{Binding ImageSource}" Grid.Row="0" Grid.Column="0"
+                                           HorizontalAlignment="Center" MaxWidth="128" MaxHeight="128"
+                                           RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                           StretchDirection="DownOnly" />
+                                    <TextBlock Text="{Binding Name}" Grid.Row="1" Grid.Column="0"
+                                               HorizontalAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </GroupBox>
+            </Grid>
+
+            <!-- List view for displaying shot type animation frames -->
+            <GroupBox Header="Animation Frames" Grid.Column="2" Grid.Row="0" Margin="3,0,0,0"
+                      BorderBrush="LightSlateGray"
+                      BorderThickness="2">
+                <ListView Name="LstShotSprites" BorderThickness="0" KeyDown="LstShotSprites_OnKeyDown"
+                          SelectionChanged="LstShotSprites_OnSelectionChanged" SelectionMode="Single">
+
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="1" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <Image Source="{Binding ImageSource}" Width="64" Height="64"
+                                       RenderOptions.BitmapScalingMode="NearestNeighbor" Grid.Row="0" Grid.Column="0"
+                                       HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding Delay}" Grid.Row="1" Grid.Column="0"
+                                           HorizontalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </GroupBox>
+        </Grid>
+    </DockPanel>
+</Window>
