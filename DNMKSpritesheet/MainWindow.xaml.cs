@@ -597,6 +597,8 @@ namespace DNMKSpritesheet
 
 					CurrentFile = svfile.FileName;
 					Unsaved = false;
+
+					shot_manager.Name = Path.GetFileNameWithoutExtension(svfile.FileName);
 				}
 				catch (ArgumentException ex)
 				{
