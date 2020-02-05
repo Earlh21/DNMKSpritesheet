@@ -390,7 +390,7 @@ namespace DNMKSpritesheet
 			string to_return = shot_image + Environment.NewLine;
 			to_return += delay_sprite_string + Environment.NewLine;
 
-			int i = 1;
+			int i = 1500;
 			foreach (ShotType shot_type in ShotTypes)
 			{
 				DataString d_s = shot_type.GetDataString(sheet, i);
@@ -416,7 +416,7 @@ namespace DNMKSpritesheet
 			to_return += "\tLoadEnemyShotData(path);" + Environment.NewLine;
 			to_return += "}" + Environment.NewLine + Environment.NewLine;
 
-			int i = 1;
+			int i = 1500;
 			foreach (ShotType shot_type in ShotTypes)
 			{
 				to_return += "let " + shot_type.Name + " = " + i + ";" + Environment.NewLine;
