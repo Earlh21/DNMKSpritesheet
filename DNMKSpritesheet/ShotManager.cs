@@ -468,8 +468,10 @@ namespace DNMKSpritesheet
 				{
 					writer.WriteLine();
 				}
-
-				writer.WriteLine(DelaySprite.Name);
+				else
+				{
+					writer.WriteLine(DelaySprite.Name);
+				}
 
 				writer.WriteLine(QuickExportLocation);
 			}
