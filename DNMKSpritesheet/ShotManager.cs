@@ -466,7 +466,7 @@ namespace DNMKSpritesheet
 			{
 				if (DelaySprite == null)
 				{
-					throw new ArgumentException("Delay sprite is not defined.");
+					writer.WriteLine();
 				}
 
 				writer.WriteLine(DelaySprite.Name);
