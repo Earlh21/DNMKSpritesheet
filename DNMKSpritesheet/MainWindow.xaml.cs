@@ -578,7 +578,7 @@ namespace DNMKSpritesheet
 
 			if (crt.ReturnValue != null)
 			{
-				shot_manager.AddSprite(crt.ReturnValue);
+				shot_manager.AddSprite(crt.ReturnValue.Image, crt.ReturnValue.Name);
 
 				Unsaved = true;
 			}
@@ -860,7 +860,17 @@ namespace DNMKSpritesheet
 
 				Directory.CreateDirectory(temp_path);
 
-				string[] filenames = shot_manager.Export(temp_path);
+				string[] filenames;
+				try
+				{
+					filenames = shot_manager.Export(temp_path);
+				}
+				catch (ArgumentException ex)
+				{
+					MessageBox.Show(ex.Message);
+					Directory.Delete(temp_path, true);
+					return;
+				}
 
 				if (File.Exists(save_file_dialog.FileName))
 				{
@@ -913,7 +923,14 @@ namespace DNMKSpritesheet
 				location = Path.GetDirectoryName(CurrentFile);
 			}
 
-			shot_manager.Export(location);
+			try
+			{
+				shot_manager.Export(location);
+			}
+			catch (ArgumentException ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 
 		private void BtnAnimationFrameUp_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)

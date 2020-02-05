@@ -83,5 +83,15 @@ namespace DNMKSpritesheet
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Sprite other)
+            {
+                return other.Name.Equals(Name);
+            }
+
+            return false;
+        }
     }
 }

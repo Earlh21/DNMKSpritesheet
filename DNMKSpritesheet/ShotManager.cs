@@ -377,18 +377,20 @@ namespace DNMKSpritesheet
 		/// <returns>The CustomShotData file as text</returns>
 		private string ConstructShotData(SpriteSheet sheet)
 		{
-			Int32Rect ds_domain = sheet.GetSpriteDomain(DelaySprite);
-
 			string shot_image = "shot_image = \"./" + Name + ".png\"";
-
-			string delay_sprite_string = "delay_rect=(";
-			delay_sprite_string += ds_domain.X + "," + ds_domain.Y + ",";
-			delay_sprite_string += (ds_domain.X + ds_domain.Width).ToString() + ",";
-			delay_sprite_string += (ds_domain.Y + ds_domain.Height).ToString() + ")";
-
-
 			string to_return = shot_image + Environment.NewLine;
-			to_return += delay_sprite_string + Environment.NewLine;
+			
+			if (DelaySprite != null)
+			{
+				Int32Rect ds_domain = sheet.GetSpriteDomain(DelaySprite);
+
+				string delay_sprite_string = "delay_rect=(";
+				delay_sprite_string += ds_domain.X + "," + ds_domain.Y + ",";
+				delay_sprite_string += (ds_domain.X + ds_domain.Width).ToString() + ",";
+				delay_sprite_string += (ds_domain.Y + ds_domain.Height).ToString() + ")";
+				
+				to_return += delay_sprite_string + Environment.NewLine;
+			}
 
 			int i = 1500;
 			foreach (ShotType shot_type in ShotTypes)
@@ -429,6 +431,11 @@ namespace DNMKSpritesheet
 
 		public string[] Export(string folder)
 		{
+			if (ShotTypes.Count == 0)
+			{
+				throw new ArgumentException("Cannot export with no shot types.");
+			}
+			
 			Directory.CreateDirectory(folder);
 
 			SpriteSheet sheet = new SpriteSheet(Sprites.ToList());
