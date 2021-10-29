@@ -1,6 +1,6 @@
 # DNMK Spritesheet
 
-Creating custom shot data can be irritating to deal with, especially if you have to update it later, so I created a GUI tool that allows you to create and edit shot types, then export the data to data, const, and spritesheet files for use in scripts.
+Creating custom shot data can be irritating to deal with, especially if you have to update it later. This is a GUI tool that allows you to create and edit shot types, then export the data to data, const, and spritesheet files for use in scripts.
 
 ![A screenshot of DNMK Spritesheet](https://i.postimg.cc/brGh3wrD/image.png)
 
