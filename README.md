@@ -21,11 +21,14 @@ The delay sprite is the sprite drawn before the bullet is spawned. You can chang
 ## Exporting
 
 Exporting gives you three files:
-A spritesheet containing all the sprites you have imported
-A shot data file containing attributes for each shot type, and the rectangle in the spritesheet for each shot type
-A const file that links the names you give to your shot types to the IDs used in the shot data file
 
-You can export to a zip file with File > Export. More useful, however, is the Quick Export option. Quick Export will export the three required files to the directory your DNMKSpritesheet project file is located in by default. You can change which location Quick Export exports to with Quick Export Options.
+* A spritesheet containing all the sprites you have imported
+
+* A shot data file containing attributes for each shot type, and the rectangle in the spritesheet for each shot type
+
+* A const file that links the names you give to your shot types to the IDs used in the shot data file
+
+You can export to a zip file with File > Export. More useful, however, is the Quick Export option. Quick Export will export the three required files to the directory your DNMKSpritesheet project file is located in by default. You can change where Quick Export exports to with Quick Export Options.
 
 ## Using the Exported Files
 
